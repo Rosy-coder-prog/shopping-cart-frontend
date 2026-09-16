@@ -34,6 +34,22 @@ const store =useMemberStore()
 const handleSubmit =async () =>{
     // true執行，但預設是false登入
     if(isRegister.value){
+        const response =await fetch('http://localhost:8082/Member/register',{
+            method:'POST',
+            headers:{'Content-type':'application/json'},
+            body:JSON.stringify({
+                mailbox:mailbox.value,
+                password:password.value,
+                 membername: membername.value
+            })
+        })
+        if(response.ok){
+
+            alert('註冊成功')
+            isRegister.value=false
+        }else{
+            alert('信箱已被註冊')
+        }
 
     }else{
         /*

@@ -15,7 +15,15 @@ export const useMemberStore = defineStore('member', ()=>{
         memberID.value =data.memberID
         // 我的值=外面傳進來的
         membername.value = data.membername
+    }  
+
+    const logout =()=>{
+        memberID.value=null,
+        membername.value=''
+
     }
 
-    return {memberID,membername,setMember}
+    return {memberID,membername,setMember,logout}
+
+    
 })
