@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- 預設false -->
         <h1>{{isRegister ? '註冊' : '登入'}}</h1>
         
     <input v-model="mailbox" placeholder="請輸入信箱" >
@@ -31,6 +32,7 @@ const membername=ref('')
 const store =useMemberStore()
 
 const handleSubmit =async () =>{
+    // true執行，但預設是false登入
     if(isRegister.value){
 
     }else{
@@ -42,12 +44,13 @@ const handleSubmit =async () =>{
         const response =await fetch('http://localhost:8082/Member/login',{
     method:'POST',
     headers:{'Content-type':'application/json'},
-    // 說明資料是 JSON 格式
+    // 資料格式是 JSON，Content-Type內容類型，application/json ->JSON格式
     body: JSON.stringify({
         // JavaScript 物件轉成 JSON 字串(動作)
 
         mailbox:mailbox.value,
-        //從盒子拿值:送給後端，
+        //從盒子拿值:送給後端
+    //    mailbox第一個 對應後端 MemberDTO  mailbox
         // 用了 ref，要拿裡面的值要加 .value
         password:password.value
 

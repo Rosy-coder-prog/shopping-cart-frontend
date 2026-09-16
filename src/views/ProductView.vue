@@ -2,7 +2,7 @@
     <div>
         <h1>商品列表</h1>
               <!-- foreach方法 -->
-              <!-- :key 主鍵辨識每一筆資料 -->
+              <!-- :key 的值在這個清單裡不能重複，讓 Vue 能分辨誰是誰-->
             <div v-for="product in products" :key="product.productID">
                 {{ product.productname  }} - {{ product.price }}
                 <!-- 按下按鈕，把這個商品的 productID 傳進函式 -->

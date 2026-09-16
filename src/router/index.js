@@ -6,7 +6,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {path:'/',
+    {
+      // 使用者打開 localhost:5173/ ->Vue Router 看到 path: '/' ->redirect: '/login' → 自動跳到 /login
+      path:'/',
       // 使用者在瀏覽器打什麼網址，就對應到什麼頁面
     redirect:'/login'
     // 使用者打了 A 網址，自動跳到 B
