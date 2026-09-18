@@ -9,21 +9,26 @@ export const useMemberStore = defineStore('member', ()=>{
     //數字null ，文字 ''(空字串)
     const memberID =ref(null)
     const membername = ref('')
+    const role = ref('')
 
     // 像是後端 Entity把值set
     const setMember = (data) => {
         memberID.value =data.memberID
         // 我的值=外面傳進來的
         membername.value = data.membername
+        role.value = data.role
     }  
+
+    
 
     const logout =()=>{
         memberID.value=null,
-        membername.value=''
+        membername.value='',
+        role.value=''
 
     }
 
-    return {memberID,membername,setMember,logout}
+    return {memberID,membername,setMember,logout,role}
 
     
 })
