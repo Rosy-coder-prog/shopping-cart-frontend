@@ -24,7 +24,7 @@ const store = useMemberStore()
 //讀取商品
 onMounted(async ()=> {
 
-    const response = await  fetch('http://localhost:8082/Product/findall')
+    const response = await  fetch('http://localhost:8082/api/product/findall')
 // 轉成 JavaScript 陣列
     const data = await response.json()
       //  把資料塞進 products
@@ -34,7 +34,7 @@ onMounted(async ()=> {
 
 //加入購物車
 const addTocart = async(productID)=>{
-    const response =await fetch('http://localhost:8082/Cart/add',{
+    const response =await fetch('http://localhost:8082/api/cart/add',{
         method:'POST',
         headers:{'Content-Type' :'application/json'},
         body:JSON.stringify({

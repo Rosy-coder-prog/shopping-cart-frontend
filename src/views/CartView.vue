@@ -32,7 +32,7 @@ const changecartQuantity = async(productID,newQuantity) =>{
     if(newQuantity<=0){
         removeItem(productID)
     }else{
-        const response = await fetch('http://localhost:8082/Cart/update',{
+        const response = await fetch('http://localhost:8082/api/cart/update',{
             method: 'PUT',
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify({
@@ -56,7 +56,7 @@ const changecartQuantity = async(productID,newQuantity) =>{
 
 // 刪除帶進參數productID
 const removeItem = async(productID)=>{
-  const response=  await fetch ('http://localhost:8082/Cart/remove',{
+  const response=  await fetch ('http://localhost:8082/api/cart/remove',{
 
              method: 'DELETE',
              headers:{'Content-Type':'application/json'},
@@ -76,7 +76,7 @@ const removeItem = async(productID)=>{
 
 //讀取購物車
 onMounted(async ()=>{
-const response = await fetch(`http://localhost:8082/Cart/${store.memberID}`)
+const response = await fetch(`http://localhost:8082/api/cart/${store.memberID}`)
 const data = await response.json()
 
 cartItems.value=data
@@ -84,7 +84,7 @@ cartItems.value=data
 
 //結帳
 const checkout = async () => {
-         const response = await fetch(`http://localhost:8082/Order/checkout/${store.memberID}`,{
+         const response = await fetch(`http://localhost:8082/api/order/checkout/${store.memberID}`,{
          method:'POST'
 
 

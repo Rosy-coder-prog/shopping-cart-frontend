@@ -34,7 +34,7 @@ const store =useMemberStore()
 const handleSubmit =async () =>{
     // true執行，但預設是false登入
     if(isRegister.value){
-        const response =await fetch('http://localhost:8082/Member/register',{
+        const response =await fetch('http://localhost:8082/api/member/register',{
             method:'POST',
             headers:{'Content-type':'application/json'},
             body:JSON.stringify({
@@ -57,7 +57,7 @@ const handleSubmit =async () =>{
       => → 箭頭（代表「這是一個函式」）
       {} → 函式內容
        */
-        const response =await fetch('http://localhost:8082/Member/login',{
+        const response =await fetch('http://localhost:8082/api/member/login',{
     method:'POST',
     headers:{'Content-type':'application/json'},
     // 資料格式是 JSON，Content-Type內容類型，application/json ->JSON格式
