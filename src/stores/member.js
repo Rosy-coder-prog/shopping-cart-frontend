@@ -10,25 +10,28 @@ export const useMemberStore = defineStore('member', ()=>{
     const memberID =ref(null)
     const membername = ref('')
     const role = ref('')
+    const accessToken = ref(null)
 
     // 像是後端 Entity把值set
     const setMember = (data) => {
-        memberID.value =data.memberID
+        accessToken.value = data.accessToken
+        memberID.value =data.member.memberID
         // 我的值=外面傳進來的
-        membername.value = data.membername
-        role.value = data.role
+        membername.value = data.member.membername
+        role.value = data.member.role
     }  
 
     
 
     const logout =()=>{
+        accessToken.value=null,
         memberID.value=null,
         membername.value='',
         role.value=''
 
     }
 
-    return {memberID,membername,setMember,logout,role}
+    return {memberID,membername,accessToken,setMember,logout,role}
 
     
 })

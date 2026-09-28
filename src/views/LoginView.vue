@@ -21,6 +21,7 @@ isRegister = !isRegister → 把 true 變 false，false 變 true -->
 import { ref } from 'vue';
 import { useMemberStore } from '@/stores/member';
 import { useRouter } from 'vue-router';
+import api from '@/api/axios';
 const router = useRouter()
 
 
@@ -34,7 +35,55 @@ const store =useMemberStore()
 const handleSubmit =async () =>{
     // true執行，但預設是false登入
     if(isRegister.value){
-        const response =await fetch('http://localhost:8082/api/member/register',{
+       try{const register = await api.post('/api/member/register',{
+        mailbox : mailbox.value,
+        password : password.value,
+        membername : membername.value
+       })
+         
+          alert('註冊成功')
+          isRegister.value =false
+    }catch(error){
+        alert(error.response?.data?.message || '註冊失敗')
+    }
+        
+       
+
+    }else{
+        /*
+      箭頭函式，() → 參數（沒有參數就空括號）
+      => → 箭頭（代表「這是一個函式」）
+      {} → 函式內容
+       */
+        try{ const res =await api.post('/api/member/login',{
+            mailbox : mailbox.value,
+            password : password.value
+          })
+
+          store.setMember(res.data)
+          alert('歡迎，' + res.data.member.membername)
+         router.push('/product')
+        }catch(error){
+            alert(error.response?.data?.message || '登入失敗')
+        }
+
+
+ 
+       
+    }
+
+
+}
+
+
+</script>
+
+<style scoped>
+</style>
+
+/*
+
+ const response =await fetch('http://localhost:8082/api/member/register',{
             method:'POST',
             headers:{'Content-type':'application/json'},
             body:JSON.stringify({
@@ -50,30 +99,24 @@ const handleSubmit =async () =>{
         }else{
             alert('信箱已被註冊')
         }
+*/
 
-    }else{
-        /*
-      箭頭函式，() → 參數（沒有參數就空括號）
-      => → 箭頭（代表「這是一個函式」）
-      {} → 函式內容
-       */
+     /*
         const response =await fetch('http://localhost:8082/api/member/login',{
     method:'POST',
     headers:{'Content-type':'application/json'},
     // 資料格式是 JSON，Content-Type內容類型，application/json ->JSON格式
     body: JSON.stringify({
-        // JavaScript 物件轉成 JSON 字串(動作)
+        JavaScript 物件轉成 JSON 字串(動作)
 
         mailbox:mailbox.value,
-        //從盒子拿值:送給後端
-    //    mailbox第一個 對應後端 MemberDTO  mailbox
-        // 用了 ref，要拿裡面的值要加 .value
+      // 從盒子拿值:送給後端
+      //  mailbox第一個 對應後端 MemberDTO  mailbox
+        //用了 ref，要拿裡面的值要加 .value
         password:password.value
+*/
 
-       
-    })
-
-})
+/*
  if(response.ok){
     // response.ok → 後端回傳 200 就是 true，回傳 500 就是 false
     const data= await response.json()
@@ -85,16 +128,8 @@ const handleSubmit =async () =>{
     alert('歡迎，'+ data.membername)
     router.push('/products') //跳到商品頁面
 
-            // 彈出視窗顯示結果，之後再改成跳頁
+            彈出視窗顯示結果，之後再改成跳頁
         }else{
             alert('登入失敗')
         }
-    }
-}
-
-
-
-</script>
-
-<style scoped>
-</style>
+            */
