@@ -41,7 +41,10 @@ api.interceptors.response.use( //共用的回應攔截器（401 自動 refresh�
         // status !== 401 ，不是「未登入」，可能是 403（沒權限）、500（伺服器錯誤），refresh 解決不了
 //url === '/api/auth/refresh'  ， refresh API 本身失敗了，再 refresh 就是無限循環 ，超過 7 天沒用.已登出.cookie 被清掉了
 // url 呼叫 api
-        if(error.response?.status !== 401 || originalRequest.url === '/api/auth/refresh'){
+        if(error.response?.status !== 401 
+            || originalRequest.url === '/api/auth/refresh'
+            || originalRequest.url === '/api/member/login'
+            || originalRequest.url === '/api/member/register'){
             // Promise 代表一個還不知道結果的操作，reject拒絕
             return Promise.reject(error) //不是 401，或 refresh 自己失敗 → 我沒辦法處理 → 丟回去 ( throw e)
         }

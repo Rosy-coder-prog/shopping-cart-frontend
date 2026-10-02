@@ -21,39 +21,85 @@
 </template>
 
 <script setup>
+import api from '@/api/axios'
 import {ref,onMounted} from 'vue'
-import { useMemberStore } from '@/stores/member'
 
-const store = useMemberStore()
+
 const cartItems = ref([])
 
-// 增加商品
+// 增加商品                 靠順序  第一個值     第二個值
 const changecartQuantity = async(productID,newQuantity) =>{
     if(newQuantity<=0){
         removeItem(productID)
     }else{
-        const response = await fetch('http://localhost:8082/api/cart/update',{
-            method: 'PUT',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({
-
-                memberID:store.memberID,
+        try{const response = await api.put('/api/cart/update',{
                 productID:productID,
                 cartQuantity:newQuantity
-            })
-        })
+        })  
+        //更新畫面
+        cartItems.value = response.data
+            }catch(error){
+                alert(error.response?.data?.message || '增加失敗')
 
-        if(response.ok){
-            const data = await response.json()
-            cartItems.value = data
+            }
         }
 
+        
         }
+        
+
+      
+
+
+// 刪除帶進參數productID
+const removeItem = async(productID)=>{
+
+  try{
+   const response=   await api.delete('/api/cart/remove',{
+            data:{productID:productID } 
+   })
+      //更新畫面
+            cartItems.value = response.data
+
+   alert('刪除成功')
+  }catch(error){
+    
+   alert(error.response?.data?.message || '刪除失敗')
+  }
+
+}
+
+
+//讀取購物車
+onMounted(async ()=>{
+const response = await api.get('/api/cart')
+
+
+cartItems.value=response.data
+})
+
+//結帳
+const checkout = async () => {
+
+        try{const response = await api.post('/api/order/checkout')
+
+        cartItems.value = []
+        
+        } catch(error){
+            alert(error.response?.data?.message || '結帳失敗')
+        }
+        
 
     }
 
 
+</script>
 
+<style scoped>
+
+</style>
+
+/*
 // 刪除帶進參數productID
 const removeItem = async(productID)=>{
   const response=  await fetch ('http://localhost:8082/api/cart/remove',{
@@ -72,8 +118,8 @@ const removeItem = async(productID)=>{
              }
 
 }
-
-
+*/
+/*
 //讀取購物車
 onMounted(async ()=>{
 const response = await fetch(`http://localhost:8082/api/cart/${store.memberID}`)
@@ -99,11 +145,31 @@ if(response.ok){
 }else{
     alert('結帳失敗')
 }
+*/
 
-}
+/*
+// 增加商品
+const changecartQuantity = async(productID,newQuantity) =>{
+    if(newQuantity<=0){
+        removeItem(productID)
+    }else{
+        const response = await fetch('http://localhost:8082/api/cart/update',{
+            method: 'PUT',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
 
-</script>
+                memberID:store.memberID,
+                productID:productID,
+                cartQuantity:newQuantity
+            })
+        })
 
-<style scoped>
+        if(response.ok){
+            const data = await response.json()
+            cartItems.value = data
+        }
 
-</style>
+        }
+
+    }
+    */

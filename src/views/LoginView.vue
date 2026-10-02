@@ -62,7 +62,7 @@ const handleSubmit =async () =>{
 
           store.setMember(res.data)
           alert('歡迎，' + res.data.member.membername)
-         router.push('/product')
+         router.push('/products')
         }catch(error){
             alert(error.response?.data?.message || '登入失敗')
         }
