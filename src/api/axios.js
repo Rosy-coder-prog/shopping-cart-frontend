@@ -72,14 +72,14 @@ api.interceptors.response.use( //共用的回應攔截器（401 自動 refresh�
         // 原始 axios 就不經過 interceptor，原始的 axios 預設 withCredentials: false，不會帶 cookie。所以要手動加
         // 呼叫後端的動作存進res
         const res =await axios.post('http://localhost:8082/api/auth/refresh',null,{
-            // 這個請求要帶 cooki
+            // 這個請求要帶 cookie
             withCredentials: true
         })
 
         const newToken = res.data.accessToken
         const store =useMemberStore()
-        // 得到新的newToken存回倉庫
-        store.accessToken = newToken
+       //讓前端知道身分，重新整理不會消失
+        store.setMember(res.data)
     // callback排隊時存進去的那個函式，callback 是變數名稱，你可以取任何名字，waitingQueue.forEach((fn) => fn(newToken))  
 
         waitingQueue.forEach((callback) => callback(newToken))

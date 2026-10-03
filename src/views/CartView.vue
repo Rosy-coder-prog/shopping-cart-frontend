@@ -12,8 +12,9 @@
           <button @click="removeItem(item.productID)">刪除</button>
     </div>
 
-    <div>
-<button v-if="cartItems.length > 0" @click="checkout">結帳</button>
+    <div v-if="cartItems.length > 0">
+       總金額: ${{total}}
+<button  @click="checkout">結帳</button>
     </div>
     
 </div>
@@ -22,10 +23,20 @@
 
 <script setup>
 import api from '@/api/axios'
-import {ref,onMounted} from 'vue'
+// computed 是「自動計算的值」
+import {ref,onMounted,computed} from 'vue'
 
 
 const cartItems = ref([])
+
+const total = computed(() => {
+// reduce，可以把整個陣列「累加」成一個值
+    return cartItems.value.reduce((sum,item) =>{
+        return sum + item.price*item.cartQuantity  
+        //  0 是初始值，sum 從 0 開始累加
+               },0 )
+})
+
 
 // 增加商品                 靠順序  第一個值     第二個值
 const changecartQuantity = async(productID,newQuantity) =>{
@@ -82,6 +93,8 @@ cartItems.value=response.data
 const checkout = async () => {
 
         try{const response = await api.post('/api/order/checkout')
+
+        alert('結帳成功，總金額:' + response.data.amount)
 
         cartItems.value = []
         
